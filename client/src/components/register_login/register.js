@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import Dialog from '@material-ui/core/Dialog';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { loginUser } from '../../store/actions';
+import { registerUser } from '../../store/actions';
 
 import FormField from '../utils/form/formField';
 import { update, generateData, isFormValid } from '../utils/form/formActions';
@@ -14,7 +15,7 @@ class Register extends Component {
 
     this.state = {
       formError: false,
-      formSuccess: '',
+      formSuccess: false,
       formdata: {
         name: {
           element: 'input',
@@ -109,7 +110,23 @@ class Register extends Component {
     let formIsValid = isFormValid(this.state.formdata, 'register');
 
     if (formIsValid) {
-      console.log(dataToSubmit);
+      try {
+        const response = await this.props.registerUser(dataToSubmit);
+        console.log(response);
+        if (response.payload.success) {
+          this.setState({
+            formError: false,
+            formSuccess: true
+          });
+          setTimeout(() => {
+            this.props.history.push('/register_login');
+          }, 3000);
+        } else {
+          this.setState({ formError: true });
+        }
+      } catch {
+        this.setState({ formError: true });
+      }
     } else {
       this.setState({ formError: true });
     }
@@ -173,13 +190,20 @@ class Register extends Component {
             </div>
           </div>
         </div>
+
+        <Dialog open={this.state.formSuccess}>
+          <div className="dialog_alert">
+            <div>Congratulations !!</div>
+            <div>You will be redirected to the login in couple seconds...</div>
+          </div>
+        </Dialog>
       </div>
     );
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  return bindActionCreators({ loginUser }, dispatch);
+  return bindActionCreators({ registerUser }, dispatch);
 };
 
 export default connect(

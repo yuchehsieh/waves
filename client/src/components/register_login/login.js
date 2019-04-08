@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { loginUser } from '../../store/actions';
 
 import FormField from '../utils/form/formField';
 import { update, generateData, isFormValid } from '../utils/form/formActions';
@@ -53,14 +56,20 @@ class Login extends Component {
     this.setState({ formdata: newFormdata, formError: false });
   };
 
-  submitForm = event => {
+  submitForm = async event => {
     event.preventDefault();
 
     let dataToSubmit = generateData(this.state.formdata, 'login');
     let formIsValid = isFormValid(this.state.formdata, 'login');
 
     if (formIsValid) {
-      console.log(dataToSubmit, formIsValid);
+      const response = await this.props.loginUser(dataToSubmit);
+      console.log(response);
+      if (response.payload.loginSuccess) {
+        this.props.history.push('/user/dashboard');
+      } else {
+        this.setState({ formError: true });
+      }
     } else {
       this.setState({ formError: true });
     }
@@ -93,4 +102,11 @@ class Login extends Component {
   }
 }
 
-export default connect()(Login);
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return bindActionCreators({ loginUser }, dispatch);
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(withRouter(Login));

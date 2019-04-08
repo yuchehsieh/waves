@@ -95,7 +95,7 @@ class Login extends Component {
             <div className="error_label">Please check your data.</div>
           ) : null}
 
-          <button onClick={this.submitForm}>Submit</button>
+          <button onClick={this.submitForm}>Log in</button>
         </form>
       </div>
     );

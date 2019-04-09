@@ -3,15 +3,15 @@ import React from 'react';
 import UserLayout from '../../hoc/userLayout';
 import MyButton from '../utils/button';
 
-const UserDashboard = () => {
+const UserDashboard = ({ user }) => {
   return (
     <UserLayout>
       <div>
         <div className="user_nfo_panel">
           <h1>User information</h1>
-          <span>name</span>
-          <span>lastname</span>
-          <span>email</span>
+          <span>{user.userData.name}</span>
+          <span>{user.userData.lastname}</span>
+          <span>{user.userData.email}</span>
           <MyButton
             type="default"
             linkTo="/user/user_profile"

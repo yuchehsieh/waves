@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { logoutUser } from '../../../store/actions';
 
 class Header extends Component {
   constructor(props) {
@@ -44,11 +47,39 @@ class Header extends Component {
     };
   }
 
-  defaultLink = (item, i) => (
-    <Link to={item.linkTo} key={i}>
-      {item.name}
-    </Link>
-  );
+  logoutHandler = async () => {
+    const request = await this.props.logoutUser();
+
+    if (request.payload.success) {
+      this.props.history.push('/');
+    }
+  };
+
+  cartLink = (item, i) => {
+    const userData = this.props.User.userData;
+
+    return (
+      <div className="cart_link" key={i}>
+        <span>{userData.cart ? userData.cart.length : 0}</span>
+        <Link to={item.linkTo}>{item.name}</Link>
+      </div>
+    );
+  };
+
+  defaultLink = (item, i) =>
+    item.name === 'Log out' ? (
+      <div
+        className="log_out_link"
+        key={i}
+        onClick={() => this.logoutHandler()}
+      >
+        {item.name}
+      </div>
+    ) : (
+      <Link to={item.linkTo} key={i}>
+        {item.name}
+      </Link>
+    );
 
   showLinks = type => {
     let list = [];
@@ -69,7 +100,11 @@ class Header extends Component {
     }
 
     return list.map((item, i) => {
-      return this.defaultLink(item, i);
+      if (item.name !== 'My Cart') {
+        return this.defaultLink(item, i);
+      } else {
+        return this.cartLink(item, i);
+      }
     });
   };
 
@@ -96,7 +131,11 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return bindActionCreators({ logoutUser }, dispatch);
+};
+
 export default connect(
   mapStateToProps,
-  null
-)(Header);
+  mapDispatchToProps
+)(withRouter(Header));

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { USER_SERVER } from '../../components/utils/misc';
-import { LOGIN_USER, REGISTER_USER, AUTH_USER } from '../types';
+import { LOGIN_USER, REGISTER_USER, AUTH_USER, LOGOUT_USER } from '../types';
 
 export const loginUser = async dataToSubmit => {
   //   const request = axios
@@ -31,6 +31,14 @@ export const auth = async () => {
   const request = await axios.get(`${USER_SERVER}/auth`);
   return {
     type: AUTH_USER,
+    payload: request.data
+  };
+};
+
+export const logoutUser = async () => {
+  const request = await axios.get(`${USER_SERVER}/logout`);
+  return {
+    type: LOGOUT_USER,
     payload: request.data
   };
 };

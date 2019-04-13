@@ -6,8 +6,9 @@ import { getBrands, getWoods } from '../../store/actions';
 
 import PageTop from '../utils/page_top';
 import CollapseCheckbox from '../utils/collapse_checkbox';
+import CollapseRadio from '../utils/collapse_radio';
 
-import { frets } from '../utils/form/fixed_catrgories';
+import { frets, price } from '../utils/form/fixed_catrgories';
 
 class Shop extends Component {
   constructor(props) {
@@ -29,12 +30,19 @@ class Shop extends Component {
   async componentDidMount() {
     const promise = [this.props.getBrands(), this.props.getWoods()];
     const data = await Promise.all(promise);
-    console.log(data);
   }
 
   handleFilters = (filter, category) => {
     const newFilters = { ...this.state.filters };
     newFilters[category] = filter;
+
+    if (category === 'price') {
+      let priceValue = price.find(item => item._id === parseInt(filter));
+      newFilters[category] = priceValue.array;
+    }
+
+    console.log(newFilters);
+
     this.setState({ filters: newFilters });
   };
 
@@ -63,6 +71,12 @@ class Shop extends Component {
                 title="Woods"
                 list={Product.woods}
                 handleFilters={filter => this.handleFilters(filter, 'wood')}
+              />
+              <CollapseRadio
+                initState={true}
+                title="Price"
+                list={price}
+                handleFilters={filter => this.handleFilters(filter, 'price')}
               />
             </div>
             <div className="right">right</div>

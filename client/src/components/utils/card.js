@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import MyButton from './button';
+
 class Card extends Component {
   renderCardImage = images => {
     if (images.length > 0) {
@@ -28,6 +30,27 @@ class Card extends Component {
         </div>
 
         {props.grid ? <div className="description">dfjdsfk</div> : null}
+        <div className="actions">
+          <div className="button_wrapp">
+            <MyButton
+              type="default"
+              altClass="card_link"
+              title="View product"
+              linkTo={`/product_detail/${props._id}`}
+              addStyles={{
+                margin: '10px 0 0 0'
+              }}
+            />
+          </div>
+          <div className="button_wrapp">
+            <MyButton
+              type="bag_link"
+              runAction={() => {
+                console.log('add to cart');
+              }}
+            />
+          </div>
+        </div>
       </div>
     );
   }

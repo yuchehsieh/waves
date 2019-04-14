@@ -7,6 +7,7 @@ import { getProductsToShop, getBrands, getWoods } from '../../store/actions';
 import PageTop from '../utils/page_top';
 import CollapseCheckbox from '../utils/collapse_checkbox';
 import CollapseRadio from '../utils/collapse_radio';
+import LoadmoreCards from './loadmoreCards';
 
 import { frets, price } from '../utils/form/fixed_catrgories';
 
@@ -92,7 +93,20 @@ class Shop extends Component {
                 handleFilters={filter => this.handleFilters(filter, 'price')}
               />
             </div>
-            <div className="right">right</div>
+            <div className="right">
+              <div className="shop_options">
+                <div className="shop_grids clear">grids</div>
+              </div>
+              <div>
+                <LoadmoreCards
+                  grid={this.state.grid}
+                  limit={this.state.limit}
+                  size={Product.toShopSize}
+                  products={Product.toShop}
+                  loadMore={() => console.log('load more')}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>

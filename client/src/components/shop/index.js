@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { faBars, faTh } from '@fortawesome/fontawesome-free-solid';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -72,6 +74,12 @@ class Shop extends Component {
     this.setState({ skip });
   };
 
+  handleGrid = () => {
+    this.setState({
+      grid: !this.state.grid ? 'grid_bars' : ''
+    });
+  };
+
   render() {
     const Product = this.props.Product;
     return (
@@ -107,7 +115,20 @@ class Shop extends Component {
             </div>
             <div className="right">
               <div className="shop_options">
-                <div className="shop_grids clear">grids</div>
+                <div className="shop_grids clear">
+                  <div
+                    className={`grid_btn ${this.state.grid ? '' : 'active'}`}
+                    onClick={this.handleGrid}
+                  >
+                    <FontAwesomeIcon icon={faTh} />
+                  </div>
+                  <div
+                    className={`grid_btn ${!this.state.grid ? '' : 'active'}`}
+                    onClick={this.handleGrid}
+                  >
+                    <FontAwesomeIcon icon={faBars} />
+                  </div>
+                </div>
               </div>
               <div>
                 <LoadmoreCards

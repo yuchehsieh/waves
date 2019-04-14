@@ -3,5 +3,6 @@ export {
   getProductsByArrival,
   getProductsBySell,
   getBrands,
-  getWoods
+  getWoods,
+  getProductsToShop
 } from './product';

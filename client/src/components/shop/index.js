@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getBrands, getWoods } from '../../store/actions';
+import { getProductsToShop, getBrands, getWoods } from '../../store/actions';
 
 import PageTop from '../utils/page_top';
 import CollapseCheckbox from '../utils/collapse_checkbox';
@@ -28,7 +28,15 @@ class Shop extends Component {
   }
 
   async componentDidMount() {
-    const promise = [this.props.getBrands(), this.props.getWoods()];
+    const promise = [
+      this.props.getBrands(),
+      this.props.getWoods(),
+      this.props.getProductsToShop(
+        this.state.skip,
+        this.state.limit,
+        this.state.filters
+      )
+    ];
     const data = await Promise.all(promise);
   }
 
@@ -94,7 +102,10 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  return bindActionCreators({ getBrands, getWoods }, dispatch);
+  return bindActionCreators(
+    { getBrands, getWoods, getProductsToShop },
+    dispatch
+  );
 };
 
 export default connect(

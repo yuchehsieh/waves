@@ -46,9 +46,11 @@ export const getProductsToShop = async (
 
   const request = await axios.post(`${PRODUCT_SERVER}/shop`, data);
   const { size, articles } = request.data;
+  const newState = [...prevState, ...articles];
+
   return {
     type: GET_PRODUCTS_TO_SHOP,
-    payload: { size, articles }
+    payload: { size, articles: newState }
   };
 };
 

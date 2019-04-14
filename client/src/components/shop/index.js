@@ -60,6 +60,18 @@ class Shop extends Component {
     this.setState({ skip: 0 });
   };
 
+  loadMoreCards = async () => {
+    let skip = this.state.skip + this.state.limit;
+
+    await this.props.getProductsToShop(
+      skip,
+      this.state.limit,
+      this.state.filters,
+      this.props.Product.toShop
+    );
+    this.setState({ skip });
+  };
+
   render() {
     const Product = this.props.Product;
     return (
@@ -103,7 +115,7 @@ class Shop extends Component {
                   limit={this.state.limit}
                   size={Product.toShopSize}
                   products={Product.toShop}
-                  loadMore={() => console.log('load more')}
+                  loadMore={() => this.loadMoreCards()}
                 />
               </div>
             </div>

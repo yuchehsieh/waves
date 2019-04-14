@@ -22,7 +22,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         toShop: action.payload.articles,
-        toSize: action.payload.size
+        toShopSize: action.payload.size
       };
     }
     default:

@@ -49,9 +49,14 @@ class Shop extends Component {
       newFilters[category] = priceValue.array;
     }
 
-    console.log(newFilters);
+    this.showFilteredResults(newFilters);
 
     this.setState({ filters: newFilters });
+  };
+
+  showFilteredResults = async filters => {
+    await this.props.getProductsToShop(0, this.state.limit, filters);
+    this.setState({ skip: 0 });
   };
 
   render() {

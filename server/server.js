@@ -41,8 +41,8 @@ app.post('/api/product/shop', (req, res) => {
     if (filters[key].length > 0) {
       if (key === 'price') {
         findArgs[key] = {
-          $gte: filters[0],
-          $lte: filters[1]
+          $gte: filters[key][0],
+          $lte: filters[key][1]
         };
       } else {
         findArgs[key] = filters[key];
@@ -58,8 +58,11 @@ app.post('/api/product/shop', (req, res) => {
     .limit(limit)
     .skip(skip)
     .exec((err, articles) => {
-      console.log(articles);
-      res.status(200).send(articles);
+      if (err) return res.status(400).send(err);
+      res.status(200).json({
+        size: articles.length,
+        articles
+      });
     });
 });
 

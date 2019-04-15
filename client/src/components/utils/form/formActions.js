@@ -65,9 +65,9 @@ export const isFormValid = (formdata, formName) => {
   return formIsValid;
 };
 
-export const populateOptionFields = (formdata, options = [], formName) => {
+export const populateOptionFields = (formdata, options = [], field) => {
   const newFormdata = { ...formdata };
-  const newElement = { ...newFormdata[formName] };
+  const newElement = { ...newFormdata[field] };
 
   const newOptions = options.map(item => ({
     key: item._id,
@@ -75,7 +75,20 @@ export const populateOptionFields = (formdata, options = [], formName) => {
   }));
 
   newElement.config.options = newOptions;
-  newFormdata[formName] = newElement;
+  newFormdata[field] = newElement;
+
+  return newFormdata;
+};
+
+export const resetFields = (formdata, formName) => {
+  let newFormdata = { ...formdata };
+
+  for (let key in newFormdata) {
+    newFormdata[key].value = '';
+    newFormdata[key].valid = false;
+    newFormdata[key].validationMessage = '';
+    newFormdata[key].touched = false;
+  }
 
   return newFormdata;
 };

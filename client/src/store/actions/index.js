@@ -4,5 +4,7 @@ export {
   getProductsBySell,
   getBrands,
   getWoods,
-  getProductsToShop
+  getProductsToShop,
+  addProduct,
+  clearProduct
 } from './product';

@@ -3,7 +3,9 @@ import {
   GET_PRODUCTS_BY_ARRIVAL,
   GET_BRANDS,
   GET_WOODS,
-  GET_PRODUCTS_TO_SHOP
+  GET_PRODUCTS_TO_SHOP,
+  ADD_PRODUCT,
+  CLEAR_PRODUCT
 } from '../types';
 
 const initialState = {};
@@ -25,6 +27,10 @@ export default (state = initialState, action) => {
         toShopSize: action.payload.size
       };
     }
+    case ADD_PRODUCT:
+      return { ...state, addProduct: action.payload };
+    case CLEAR_PRODUCT:
+      return { ...state, addProduct: action.payload };
     default:
       return state;
   }

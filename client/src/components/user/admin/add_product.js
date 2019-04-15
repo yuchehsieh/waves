@@ -2,7 +2,12 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getBrands, getWoods } from '../../../store/actions';
+import {
+  getBrands,
+  getWoods,
+  addProduct,
+  clearProduct
+} from '../../../store/actions';
 
 import UserLayout from '../../../hoc/userLayout';
 
@@ -11,7 +16,8 @@ import {
   update,
   generateData,
   isFormValid,
-  populateOptionFields
+  populateOptionFields,
+  resetFields
 } from '../../utils/form/formActions';
 
 class AddProduct extends Component {
@@ -201,6 +207,39 @@ class AddProduct extends Component {
     this.setState({ formdata: newFormdata });
   }
 
+  updateForm = element => {
+    const newFormdata = update(element, this.state.formdata, 'products');
+    this.setState({ formdata: newFormdata, formError: false });
+  };
+
+  resetFieldsHandler = () => {
+    const newFormdata = resetFields(this.state.formdata, 'products');
+    this.setState({ formdara: newFormdata, formSuccess: true });
+    setTimeout(() => {
+      this.setState({ formSuccess: false }, () => {
+        this.props.clearProduct();
+      });
+    }, 3000);
+  };
+
+  submitForm = async event => {
+    event.preventDefault();
+
+    let dataToSubmit = generateData(this.state.formdata, 'products');
+    let formIsValid = isFormValid(this.state.formdata, 'products');
+
+    if (formIsValid) {
+      const response = await this.props.addProduct(dataToSubmit);
+      if (response.payload.success) {
+        this.resetFieldsHandler();
+      } else {
+        this.setState({ formError: true });
+      }
+    } else {
+      this.setState({ formError: true });
+    }
+  };
+
   render() {
     const {
       formdata: {
@@ -304,7 +343,10 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  return bindActionCreators({ getBrands, getWoods }, dispatch);
+  return bindActionCreators(
+    { getBrands, getWoods, addProduct, clearProduct },
+    dispatch
+  );
 };
 
 export default connect(

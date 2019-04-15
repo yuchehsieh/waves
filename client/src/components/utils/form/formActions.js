@@ -64,3 +64,18 @@ export const isFormValid = (formdata, formName) => {
 
   return formIsValid;
 };
+
+export const populateOptionFields = (formdata, options = [], formName) => {
+  const newFormdata = { ...formdata };
+  const newElement = { ...newFormdata[formName] };
+
+  const newOptions = options.map(item => ({
+    key: item._id,
+    value: item.name
+  }));
+
+  newElement.config.options = newOptions;
+  newFormdata[formName] = newElement;
+
+  return newFormdata;
+};

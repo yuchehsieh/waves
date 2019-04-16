@@ -11,6 +11,7 @@ import {
 
 import UserLayout from '../../../hoc/userLayout';
 
+import FileUpload from '../../utils/form/fileupload';
 import FormField from '../../utils/form/formField';
 import {
   update,
@@ -182,6 +183,15 @@ class AddProduct extends Component {
           touched: false,
           validationMessage: '',
           showlabel: true
+        },
+        images: {
+          value: [],
+          validation: {
+            required: false
+          },
+          valid: true,
+          touched: false,
+          showlabel: false
         }
       }
     };
@@ -240,6 +250,8 @@ class AddProduct extends Component {
     }
   };
 
+  imagesHandler = () => {};
+
   render() {
     const {
       formdata: {
@@ -263,6 +275,11 @@ class AddProduct extends Component {
           <h1>Add product</h1>
           <form onSubmit={event => this.submitForm(event)}>
             {/* IMAGE on the top */}
+
+            <FileUpload
+              imagesHandler={images => this.imagesHandler(images)}
+              reset={this.state.formSuccess}
+            />
 
             <FormField
               id="name"

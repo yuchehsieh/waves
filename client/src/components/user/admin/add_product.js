@@ -250,7 +250,17 @@ class AddProduct extends Component {
     }
   };
 
-  imagesHandler = () => {};
+  imagesHandler = images => {
+    const newFormdata = {
+      ...this.state.formdata
+    };
+    newFormdata['images'].value = images;
+    newFormdata['images'].valid = true;
+
+    this.setState({
+      formdara: newFormdata
+    });
+  };
 
   render() {
     const {

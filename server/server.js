@@ -250,6 +250,16 @@ app.post('/api/users/uploadimage', auth, admin, formidable(), (req, res) => {
   );
 });
 
+// /api/users/removeimage?public_id=${id}
+app.get('/api/users/removeimage', auth, admin, (req, res) => {
+  const public_id = req.query.public_id;
+
+  cloudinary.uploader.destroy(public_id, (error, result) => {
+    if (error.result !== 'ok') return res.json({ success: false, error });
+    res.status(200).send('ok');
+  });
+});
+
 const port = process.env.PORT || 2000;
 
 app.listen(port, () => {

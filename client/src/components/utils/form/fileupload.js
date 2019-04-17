@@ -16,6 +16,16 @@ class Fileupload extends Component {
     };
   }
 
+  static getDerivedStateFromProps(props, state) {
+    if (props.reset) {
+      return (state = {
+        uploadedFiles: []
+      });
+    }
+
+    return null;
+  }
+
   onDrop = async files => {
     this.setState({ uploading: true });
     const formData = new FormData();
@@ -41,7 +51,15 @@ class Fileupload extends Component {
     );
   };
 
-  onRemove = id => {};
+  onRemove = async id => {
+    const request = await axios.get(`/api/users/removeimage?public_id=${id}`);
+    const images = this.state.uploadedFiles.filter(
+      item => item.public_id !== id
+    );
+    this.setState({ uploadedFiles: images }, () => {
+      this.props.imagesHandler(images);
+    });
+  };
 
   showUploadedImages = () =>
     this.state.uploadedFiles.map(item => (

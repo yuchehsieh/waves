@@ -50,7 +50,7 @@ const productSchema = mongoose.Schema(
       type: Boolean,
       requrired: true
     },
-    image: {
+    images: {
       type: Array,
       default: []
     }

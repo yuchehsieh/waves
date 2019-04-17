@@ -18,7 +18,7 @@ class Card extends Component {
         <div
           className="image"
           style={{
-            background: `url(${this.renderCardImage(props.image)}) no-repeat`
+            background: `url(${this.renderCardImage(props.images)}) no-repeat`
           }}
         />
         <div className="action_container">

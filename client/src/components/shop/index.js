@@ -130,7 +130,7 @@ class Shop extends Component {
                   </div>
                 </div>
               </div>
-              <div>
+              <div style={{ clear: 'both' }}>
                 <LoadmoreCards
                   grid={this.state.grid}
                   limit={this.state.limit}

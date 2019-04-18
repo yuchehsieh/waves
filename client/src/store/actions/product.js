@@ -7,7 +7,8 @@ import {
   GET_PRODUCTS_TO_SHOP,
   ADD_PRODUCT,
   CLEAR_PRODUCT,
-  ADD_BRAND
+  ADD_BRAND,
+  ADD_WOOD
 } from '../types';
 import { PRODUCT_SERVER } from '../../components/utils/misc';
 
@@ -107,5 +108,19 @@ export const getWoods = async () => {
   return {
     type: GET_WOODS,
     payload: request.data
+  };
+};
+
+export const addWood = async (dataToSubmit, existingWoods) => {
+  const request = await axios.post(`${PRODUCT_SERVER}/wood`, dataToSubmit);
+
+  const woods = [...existingWoods, request.data.wood];
+
+  return {
+    type: ADD_WOOD,
+    payload: {
+      success: request.data.success,
+      woods
+    }
   };
 };

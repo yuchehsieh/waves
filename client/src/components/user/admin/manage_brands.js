@@ -64,11 +64,23 @@ class ManageBrands extends Component {
     let formIsValid = isFormValid(this.state.formdata, 'brands');
 
     if (formIsValid) {
-      console.log(dataToSubmit);
-      await this.props.addBrand(dataToSubmit, this.props.Product.brands);
+      const response = await this.props.addBrand(
+        dataToSubmit,
+        this.props.Product.brands
+      );
+      if (response.payload.success) {
+        this.resetFieldsHandler();
+      } else {
+        this.setState({ formError: true });
+      }
     } else {
       this.setState({ formError: true });
     }
+  };
+
+  resetFieldsHandler = () => {
+    const newFormdata = resetFields(this.state.formdata, 'brands');
+    this.setState({ formdara: newFormdata });
   };
 
   render() {

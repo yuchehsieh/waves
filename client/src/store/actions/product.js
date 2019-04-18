@@ -6,7 +6,8 @@ import {
   GET_WOODS,
   GET_PRODUCTS_TO_SHOP,
   ADD_PRODUCT,
-  CLEAR_PRODUCT
+  CLEAR_PRODUCT,
+  ADD_BRAND
 } from '../types';
 import { PRODUCT_SERVER } from '../../components/utils/misc';
 
@@ -82,6 +83,21 @@ export const getBrands = async () => {
   return {
     type: GET_BRANDS,
     payload: request.data
+  };
+};
+
+export const addBrand = async (dataToSubmit, existingBrands) => {
+  const request = await axios.post(`${PRODUCT_SERVER}/brand`, dataToSubmit);
+
+  const brands = [...existingBrands, request.data.brand];
+
+  // in real world should catch the false!
+  return {
+    type: ADD_BRAND,
+    payload: {
+      success: request.data.success,
+      brands
+    }
   };
 };
 

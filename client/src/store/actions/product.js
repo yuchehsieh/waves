@@ -8,9 +8,27 @@ import {
   ADD_PRODUCT,
   CLEAR_PRODUCT,
   ADD_BRAND,
-  ADD_WOOD
+  ADD_WOOD,
+  GET_PRODUCT_DETAIL,
+  CLEAR_PRODUCT_DETAIL
 } from '../types';
 import { PRODUCT_SERVER } from '../../components/utils/misc';
+
+export const getProductDetail = async id => {
+  // /api/product/articles_by_id?id=XXX,AAA,BBB&type=array
+  const request = await axios.get(
+    `${PRODUCT_SERVER}/articles_by_id?id=${id}&type=single`
+  );
+
+  console.log(request.data[0]);
+
+  return {
+    type: GET_PRODUCT_DETAIL,
+    payload: request.data[0]
+  };
+};
+
+export const clearProductDetail = () => ({ type: CLEAR_PRODUCT_DETAIL });
 
 export const getProductsByArrival = async () => {
   // /articles?sortBy=createdAt&order=desc&limit=4

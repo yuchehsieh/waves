@@ -98,7 +98,7 @@ app.get('/api/product/articles', (req, res) => {
     });
 });
 
-// /api/product/article?id=XXX,AAA,BBB&type=array
+// /api/product/articles_by_id?id=XXX,AAA,BBB&type=array
 app.get('/api/product/articles_by_id', (req, res) => {
   let type = req.query.type;
   let items = req.query.id;

@@ -7,7 +7,9 @@ import {
   ADD_PRODUCT,
   CLEAR_PRODUCT,
   ADD_BRAND,
-  ADD_WOOD
+  ADD_WOOD,
+  GET_PRODUCT_DETAIL,
+  CLEAR_PRODUCT_DETAIL
 } from '../types';
 
 const initialState = {};
@@ -45,6 +47,10 @@ export default (state = initialState, action) => {
       return { ...state, addProduct: action.payload };
     case CLEAR_PRODUCT:
       return { ...state, addProduct: action.payload };
+    case GET_PRODUCT_DETAIL:
+      return { ...state, prodDetail: action.payload };
+    case CLEAR_PRODUCT_DETAIL:
+      return { ...state, prodDetail: {} };
     default:
       return state;
   }

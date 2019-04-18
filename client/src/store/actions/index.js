@@ -8,5 +8,7 @@ export {
   addProduct,
   clearProduct,
   addBrand,
-  addWood
+  addWood,
+  getProductDetail,
+  clearProductDetail
 } from './product';

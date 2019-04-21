@@ -7,6 +7,7 @@ import { getProductDetail, clearProductDetail } from '../../store/actions';
 
 import PageTop from '../utils/page_top';
 import ProdNfo from './prodNfo';
+import ProdImg from './prodimg';
 
 class ProductPage extends Component {
   async componentDidMount() {
@@ -15,14 +16,17 @@ class ProductPage extends Component {
   }
 
   render() {
-    console.log(this.props.Product);
     return (
       <div>
         <PageTop title="Product Detail" />
         <div className="container">
           {this.props.Product.prodDetail ? (
             <div className="product_detail_wrapper">
-              <div className="left">images</div>
+              <div className="left">
+                <div style={{ width: '500px' }}>
+                  <ProdImg detail={this.props.Product.prodDetail} />
+                </div>
+              </div>
 
               <div className="right">
                 <ProdNfo

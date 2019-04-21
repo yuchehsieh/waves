@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import ImageLightbox from '../utils/lightbox';
+
 class ProdImg extends Component {
   constructor(props) {
     super(props);
@@ -15,9 +17,7 @@ class ProdImg extends Component {
     if (this.props.detail.images.length > 0) {
       let lightboxImages = [];
 
-      this.props.detail.images.forEach(item =>
-        lightboxImages.push({ src: item.url })
-      );
+      this.props.detail.images.forEach(item => lightboxImages.push(item.url));
 
       this.setState({ lightboxImages });
     }
@@ -39,13 +39,21 @@ class ProdImg extends Component {
           onClick={() => this.handleLighbox(i)}
           className="thumb"
           style={{
-            background: `url(${item.src}) no-repeat`
+            background: `url(${item}) no-repeat`
           }}
         />
       ) : null
     );
 
-  handleLighbox = () => {};
+  handleLighbox = pos => {
+    if (this.state.lightboxImages.length > 0) {
+      this.setState({ lightbox: true, imagePos: pos });
+    }
+  };
+
+  handleLighboxClose = () => {
+    this.setState({ lightbox: false });
+  };
 
   render() {
     const { detail } = this.props;
@@ -62,6 +70,15 @@ class ProdImg extends Component {
           />
         </div>
         <div className="main_thumbs">{this.showThumbs(detail)}</div>
+        {this.state.lightbox ? (
+          <ImageLightbox
+            id={detail.id}
+            images={this.state.lightboxImages}
+            open={this.state.lightbox}
+            pos={this.state.imagePos}
+            onClose={() => this.handleLighboxClose()}
+          />
+        ) : null}
       </div>
     );
   }

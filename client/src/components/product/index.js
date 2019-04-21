@@ -12,7 +12,10 @@ import ProdImg from './prodimg';
 class ProductPage extends Component {
   async componentDidMount() {
     const id = this.props.match.params.id;
-    const response = await this.props.getProductDetail(id);
+    await this.props.getProductDetail(id);
+    if (!this.props.Product.prodDetail) {
+      this.props.history.push('/');
+    }
   }
 
   render() {

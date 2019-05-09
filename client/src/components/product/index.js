@@ -3,7 +3,11 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getProductDetail, clearProductDetail } from '../../store/actions';
+import {
+  getProductDetail,
+  clearProductDetail,
+  addToCart
+} from '../../store/actions';
 
 import PageTop from '../utils/page_top';
 import ProdNfo from './prodNfo';
@@ -17,6 +21,10 @@ class ProductPage extends Component {
       this.props.history.push('/');
     }
   }
+
+  addToCartHandler = id => {
+    this.props.addToCart(id);
+  };
 
   render() {
     return (
@@ -54,7 +62,10 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  return bindActionCreators({ getProductDetail, clearProductDetail }, dispatch);
+  return bindActionCreators(
+    { getProductDetail, clearProductDetail, addToCart },
+    dispatch
+  );
 };
 
 export default connect(

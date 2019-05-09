@@ -1,7 +1,13 @@
 import axios from 'axios';
 
 import { USER_SERVER } from '../../components/utils/misc';
-import { LOGIN_USER, REGISTER_USER, AUTH_USER, LOGOUT_USER } from '../types';
+import {
+  LOGIN_USER,
+  REGISTER_USER,
+  AUTH_USER,
+  LOGOUT_USER,
+  ADD_TO_CART_USER
+} from '../types';
 
 export const loginUser = async dataToSubmit => {
   //   const request = axios
@@ -39,6 +45,14 @@ export const logoutUser = async () => {
   const request = await axios.get(`${USER_SERVER}/logout`);
   return {
     type: LOGOUT_USER,
+    payload: request.data
+  };
+};
+
+export const addToCart = async _id => {
+  const request = await axios.post(`${USER_SERVER}/addToCart?productId=${_id}`);
+  return {
+    type: ADD_TO_CART_USER,
     payload: request.data
   };
 };

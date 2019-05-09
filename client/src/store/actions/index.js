@@ -1,4 +1,4 @@
-export { loginUser, registerUser, auth, logoutUser } from './user';
+export { loginUser, registerUser, auth, logoutUser, addToCart } from './user';
 export {
   getProductsByArrival,
   getProductsBySell,

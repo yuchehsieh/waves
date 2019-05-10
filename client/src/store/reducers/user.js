@@ -3,7 +3,8 @@ import {
   REGISTER_USER,
   AUTH_USER,
   LOGOUT_USER,
-  ADD_TO_CART_USER
+  ADD_TO_CART_USER,
+  GET_CART_ITEM_USER
 } from '../types';
 
 const initialState = {};
@@ -36,6 +37,11 @@ export default (state = initialState, action) => {
           ...state.userData,
           cart: action.payload
         }
+      };
+    case GET_CART_ITEM_USER:
+      return {
+        ...state,
+        cartDetail: action.payload
       };
     default:
       return state;

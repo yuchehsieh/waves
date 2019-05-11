@@ -7,7 +7,8 @@ import {
   AUTH_USER,
   LOGOUT_USER,
   ADD_TO_CART_USER,
-  GET_CART_ITEM_USER
+  GET_CART_ITEM_USER,
+  REMOVE_CART_ITEM_USER
 } from '../types';
 
 export const loginUser = async dataToSubmit => {
@@ -73,6 +74,24 @@ export const getCartItems = async (cartItems, userCart) => {
 
   return {
     type: GET_CART_ITEM_USER,
+    payload: response.data
+  };
+};
+
+export const removeCartItem = async id => {
+  const response = await axios.get(`${USER_SERVER}/removeFromCart?_id=${id}`);
+
+  const { cartDetail, cart } = response.data;
+  cart.forEach(item => {
+    cartDetail.forEach((k, i) => {
+      if (k._id === item.id) {
+        cartDetail[i].quantity = item.quantity;
+      }
+    });
+  });
+
+  return {
+    type: REMOVE_CART_ITEM_USER,
     payload: response.data
   };
 };

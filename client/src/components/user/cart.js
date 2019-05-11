@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getCartItems } from '../../store/actions';
+import { getCartItems, removeCartItem } from '../../store/actions';
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faFrown, faSmile } from '@fortawesome/fontawesome-free-solid';
@@ -57,7 +57,14 @@ class UserCart extends Component {
     </div>
   );
 
-  removeFromCart = () => {};
+  removeFromCart = async id => {
+    await this.props.removeCartItem(id);
+    if (this.props.User.cartDetail.length <= 0) {
+      this.setState({ showTotal: false });
+    } else {
+      this.calculateTotal(this.props.User.cartDetail);
+    }
+  };
 
   render() {
     return (
@@ -103,7 +110,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  return bindActionCreators({ getCartItems }, dispatch);
+  return bindActionCreators({ getCartItems, removeCartItem }, dispatch);
 };
 
 export default connect(

@@ -4,7 +4,8 @@ export {
   auth,
   logoutUser,
   addToCart,
-  getCartItems
+  getCartItems,
+  removeCartItem
 } from './user';
 export {
   getProductsByArrival,

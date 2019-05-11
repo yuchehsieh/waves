@@ -307,6 +307,31 @@ app.post('/api/users/addToCart', auth, (req, res) => {
   });
 });
 
+app.get('/api/users/removeFromCart', auth, (req, res) => {
+  User.findOneAndUpdate(
+    { _id: req.user._id },
+    {
+      $pull: {
+        cart: {
+          id: mongoose.Types.ObjectId(req.query._id)
+        }
+      }
+    },
+    { new: true },
+    (err, doc) => {
+      let cart = doc.cart;
+      let idArray = cart.map(item => item.id);
+
+      Product.find({ _id: { $in: idArray } })
+        .populate('wood')
+        .populate('brand')
+        .exec((err, cartDetail) => {
+          return res.status(200).json({ cartDetail, cart });
+        });
+    }
+  );
+});
+
 const port = process.env.PORT || 2000;
 
 app.listen(port, () => {

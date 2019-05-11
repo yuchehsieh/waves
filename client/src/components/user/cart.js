@@ -9,6 +9,9 @@ import { faFrown, faSmile } from '@fortawesome/fontawesome-free-solid';
 import UserLayout from '../../hoc/userLayout';
 import UserProductBlock from '../utils/user/product_block';
 
+import Paypal from '../utils/paypal';
+// AcjMwBr23OAw6qpfpbl8qrTg0NWoOs3dJSNj46vZY4yI__JWeMvKIcHJ4aWuh16l-8FUalvZa2BimFM-
+
 class UserCart extends Component {
   constructor(props) {
     super(props);
@@ -66,6 +69,12 @@ class UserCart extends Component {
     }
   };
 
+  transactionError = () => {};
+
+  transactionCanceld = () => {};
+
+  transactionSuccess = () => {};
+
   render() {
     return (
       <UserLayout>
@@ -95,7 +104,14 @@ class UserCart extends Component {
             )}
           </div>
           {this.state.showTotal ? (
-            <div className="paypal_button_container">Paypal</div>
+            <div className="paypal_button_container">
+              <Paypal
+                toPay={this.state.total}
+                transactionError={data => this.transactionError(data)}
+                transactionCanceld={data => this.transactionCanceld(data)}
+                onSuccess={data => this.transactionSuccess(data)}
+              />
+            </div>
           ) : null}
         </div>
       </UserLayout>

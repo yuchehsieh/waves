@@ -5,7 +5,28 @@ import PaypalExpressBtn from 'react-paypal-express-checkout';
 class Paypal extends Component {
   render() {
     const onSuccess = payment => {
-      console.log(JSON.stringify(payment));
+      //   console.log(JSON.stringify(payment));
+
+      this.props.onSuccess(payment);
+
+      // const successScenario = {
+      //   paid: true,
+      //   cancelled: false,
+      //   payerID: 'JEDVY9LVW743S',
+      //   paymentID: 'PAYID-LTLLV4I58C07747CY970890U',
+      //   paymentToken: 'EC-6F3150813R495050T',
+      //   returnUrl:
+      //     'https://www.paypal.com/checkoutnow/error?paymentId=PAYID-LTLLV4I58C07747CY970890U&token=EC-6F3150813R495050T&PayerID=JEDVY9LVW743S',
+      //   address: {
+      //     recipient_name: 'test buyer',
+      //     line1: '1 Main St',
+      //     city: 'San Jose',
+      //     state: 'CA',
+      //     postal_code: '95131',
+      //     country_code: 'US'
+      //   },
+      //   email: 'hsiehdanny860605-buyer@gmail.com'
+      // };
     };
 
     const onCancel = data => {

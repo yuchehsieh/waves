@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { getCartItems } from '../../store/actions';
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
@@ -32,11 +33,29 @@ class UserCart extends Component {
         });
       }
 
-      const response = await this.props.dispatch(
-        getCartItems(cartItems, userCart)
-      );
+      // 這邊不能用 user alias
+      await this.props.getCartItems(cartItems, userCart);
+      if (this.props.User.cartDetail.length > 0) {
+        this.calculateTotal(this.props.User.cartDetail);
+      }
     }
   }
+
+  calculateTotal = cartDetail => {
+    let total = 0;
+    cartDetail.forEach(item => {
+      total = total + parseInt(item.price, 10) * parseInt(item.quantity, 10);
+    });
+
+    this.setState({ total, showTotal: true });
+  };
+
+  showNoItemMessage = () => (
+    <div className="cart_no_items">
+      <FontAwesomeIcon icon={faFrown} />
+      <div>You have no items</div>
+    </div>
+  );
 
   removeFromCart = () => {};
 
@@ -51,7 +70,26 @@ class UserCart extends Component {
               type="cart"
               removeItem={id => this.removeFromCart(id)}
             />
+
+            {this.state.showTotal ? (
+              <div>
+                <div className="user_cart_sum">
+                  <div>Total amount: $ {this.state.total}</div>
+                </div>
+              </div>
+            ) : this.state.showSuccess ? (
+              <div className="cart_success">
+                <FontAwesomeIcon icon={faSmile} />
+                <div>THANK YOU</div>
+                <div>YOUR ORDER IS NOW COMPLETE</div>
+              </div>
+            ) : (
+              this.showNoItemMessage()
+            )}
           </div>
+          {this.state.showTotal ? (
+            <div className="paypal_button_container">Paypal</div>
+          ) : null}
         </div>
       </UserLayout>
     );
@@ -64,4 +102,11 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps)(UserCart);
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return bindActionCreators({ getCartItems }, dispatch);
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UserCart);

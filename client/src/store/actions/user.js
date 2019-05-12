@@ -9,7 +9,9 @@ import {
   ADD_TO_CART_USER,
   GET_CART_ITEM_USER,
   REMOVE_CART_ITEM_USER,
-  ON_SUCCESS_BUY_USER
+  ON_SUCCESS_BUY_USER,
+  UPDATE_DATA_USER,
+  CLEAR_UPDATE_USER_DATA
 } from '../types';
 
 export const loginUser = async dataToSubmit => {
@@ -103,5 +105,21 @@ export const onSuccessBuy = async data => {
   return {
     type: ON_SUCCESS_BUY_USER,
     payload: response.data
+  };
+};
+
+export const updateUserData = async data => {
+  const response = await axios.post(`${USER_SERVER}/update_profile`, data);
+
+  return {
+    type: UPDATE_DATA_USER,
+    payload: response.data
+  };
+};
+
+export const clearUpdateUser = () => {
+  return {
+    type: CLEAR_UPDATE_USER_DATA,
+    payload: ''
   };
 };

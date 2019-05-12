@@ -6,7 +6,9 @@ export {
   addToCart,
   getCartItems,
   removeCartItem,
-  onSuccessBuy
+  onSuccessBuy,
+  updateUserData,
+  clearUpdateUser
 } from './user';
 export {
   getProductsByArrival,

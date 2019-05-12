@@ -389,7 +389,7 @@ app.post('/api/users/successBuy', auth, (req, res) => {
           });
         });
 
-        async.eachOfSeries(
+        async.eachSeries(
           products,
           (item, callback) => {
             // do the sold update

@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getCartItems, removeCartItem } from '../../store/actions';
+import {
+  getCartItems,
+  removeCartItem,
+  onSuccessBuy
+} from '../../store/actions';
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faFrown, faSmile } from '@fortawesome/fontawesome-free-solid';
@@ -77,11 +81,17 @@ class UserCart extends Component {
     console.log('Transaction canceld');
   };
 
-  transactionSuccess = data => {
-    this.setState({
-      showTotal: false,
-      showSuccess: true
-    });
+  transactionSuccess = async data => {
+    const { cartDetail } = this.props.User;
+
+    await this.props.onSuccessBuy({ cartDetail, paymentData: data });
+
+    if (this.props.User.successBuy) {
+      this.setState({
+        showTotal: false,
+        showSuccess: true
+      });
+    }
   };
 
   render() {
@@ -135,7 +145,10 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  return bindActionCreators({ getCartItems, removeCartItem }, dispatch);
+  return bindActionCreators(
+    { getCartItems, removeCartItem, onSuccessBuy },
+    dispatch
+  );
 };
 
 export default connect(

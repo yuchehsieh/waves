@@ -5,7 +5,8 @@ import {
   LOGOUT_USER,
   ADD_TO_CART_USER,
   GET_CART_ITEM_USER,
-  REMOVE_CART_ITEM_USER
+  REMOVE_CART_ITEM_USER,
+  ON_SUCCESS_BUY_USER
 } from '../types';
 
 const initialState = {};
@@ -47,6 +48,16 @@ export default (state = initialState, action) => {
     case REMOVE_CART_ITEM_USER:
       return {
         ...state,
+        userData: {
+          ...state.userData,
+          cart: action.payload.cart
+        },
+        cartDetail: action.payload.cartDetail
+      };
+    case ON_SUCCESS_BUY_USER:
+      return {
+        ...state,
+        successBuy: action.payload.success,
         userData: {
           ...state.userData,
           cart: action.payload.cart

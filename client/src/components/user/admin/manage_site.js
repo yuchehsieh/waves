@@ -7,7 +7,6 @@ const ManageSite = () => {
   return (
     <UserLayout>
       <UpdateSiteNfo />
-      manage site
     </UserLayout>
   );
 };

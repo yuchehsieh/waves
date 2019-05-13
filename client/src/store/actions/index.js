@@ -23,3 +23,4 @@ export {
   getProductDetail,
   clearProductDetail
 } from './product';
+export { getSiteData } from './site';

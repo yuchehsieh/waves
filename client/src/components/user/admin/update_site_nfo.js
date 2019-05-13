@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { CircularProgress } from '@material-ui/core';
 
 import { connect } from 'react-redux';
+import { getSiteData } from '../../../store/actions';
 
 import FormField from '../../utils/form/formField';
 import {
@@ -15,6 +17,7 @@ class UpdateSiteNfo extends Component {
     super(props);
 
     this.state = {
+      loading: true,
       formError: false,
       formSuccess: false,
       formdata: {
@@ -91,6 +94,15 @@ class UpdateSiteNfo extends Component {
     };
   }
 
+  async componentDidMount() {
+    await this.props.dispatch(getSiteData());
+    const newFormdata = populateFields(
+      this.state.formdata,
+      this.props.Site.siteData[0]
+    );
+    this.setState({ formdata: newFormdata, loading: false });
+  }
+
   updateForm = element => {
     const newFormdata = update(element, this.state.formdata, 'site_info');
     this.setState({ formdata: newFormdata, formError: false });
@@ -110,6 +122,13 @@ class UpdateSiteNfo extends Component {
   };
 
   render() {
+    if (this.state.loading) {
+      return (
+        <div className="main_loader">
+          <CircularProgress style={{ color: '#2196F3' }} thickness={7} />
+        </div>
+      );
+    }
     return (
       <div>
         <form onSubmit={this.submitForm}>

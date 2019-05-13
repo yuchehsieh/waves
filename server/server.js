@@ -447,6 +447,22 @@ app.get('/api/site/site_data', (req, res) => {
   });
 });
 
+app.post('/api/site/site_data', auth, admin, (req, res) => {
+  Site.findOneAndUpdate(
+    { name: 'Site' },
+    {
+      $set: {
+        siteInfo: req.body
+      }
+    },
+    { new: true }, // get the whole document back!
+    (err, doc) => {
+      if (err) return res.status(400).json({ success: false, err });
+      return res.status(200).send({ success: true, siteInfo: doc.siteInfo });
+    }
+  );
+});
+
 const port = process.env.PORT || 2000;
 
 app.listen(port, () => {

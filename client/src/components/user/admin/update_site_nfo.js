@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import { CircularProgress } from '@material-ui/core';
 
 import { connect } from 'react-redux';
-import { getSiteData } from '../../../store/actions';
+import {
+  getSiteData,
+  updateSiteData,
+  clearUpdateSiteData
+} from '../../../store/actions';
 
 import FormField from '../../utils/form/formField';
 import {
@@ -115,7 +119,20 @@ class UpdateSiteNfo extends Component {
     let formIsValid = isFormValid(this.state.formdata, 'site_info');
 
     if (formIsValid) {
-      console.log(dataToSubmit);
+      await this.props.dispatch(updateSiteData(dataToSubmit));
+      if (this.props.Site.updateSite) {
+        this.setState(
+          {
+            formSuccess: true
+          },
+          () => {
+            setTimeout(() => {
+              this.props.dispatch(clearUpdateSiteData());
+              this.setState({ formSuccess: false });
+            }, 2000);
+          }
+        );
+      }
     } else {
       this.setState({ formError: true });
     }

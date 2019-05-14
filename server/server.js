@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const formidable = require('express-formidable');
 const cloudinary = require('cloudinary');
+const mailer = require('nodemailer');
 
 const app = express();
 
@@ -34,6 +35,30 @@ const { Site } = require('./models/site');
 // Middlewares
 const { auth } = require('./middleware/auth');
 const { admin } = require('./middleware/admin');
+
+// const smtpTransport = mailer.createTransport({
+//   host: 'smtp.gmail.com',
+//   port: 587,
+//   secure: false,
+//   auth: {
+//     user: 'XXXXXXXXXXXXXXXXXX', // real email
+//     pass: 'XXXXXXXXXXXXXXXXXXX' // real password, which is unsecure!
+//   }
+// });
+
+// var mail = {
+//   from: 'Waves <XXXXXXXXXXXXXx@gmail.com>',
+//   to: 'hsiehdanny860605@gmail.com',
+//   subject: 'Send test email',
+//   text: 'Testing our waves mail',
+//   html: '<b>Hello guys this works</b>'
+// };
+
+// smtpTransport.sendMail(mail, function(error, response) {
+//   if (error) console.log(error);
+//   else console.log('Email sent');
+//   smtpTransport.close();
+// });
 
 //==============================
 //            PRODUCTS

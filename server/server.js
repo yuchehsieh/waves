@@ -427,6 +427,8 @@ app.post('/api/users/successBuy', auth, (req, res) => {
           },
           err => {
             if (err) return res.json({ success: false, err });
+            // send the email
+            sendEmail(user.email, user.name, null, 'purchase', transactionData);
             res.status(200).json({
               success: true,
               cart: user.cart,

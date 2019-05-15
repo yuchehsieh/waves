@@ -1,8 +1,10 @@
 const mailer = require('nodemailer');
-const { welcome } = require('./welcome_template');
 require('dotenv').config();
 
-const getEmailTemplate = (to, name, token, template) => {
+const { welcome } = require('./welcome_template');
+const { purchase } = require('./purchase_template');
+
+const getEmailTemplate = (to, name, token, template, actionData) => {
   let data = null;
 
   switch (template) {
@@ -14,6 +16,14 @@ const getEmailTemplate = (to, name, token, template) => {
         html: welcome()
       };
       break;
+    case 'purchase':
+      data = {
+        from: 'Waves <murphyhsieh.dev@gmail.com>',
+        to,
+        subject: `Thanks for shopping with us ${name}`,
+        html: purchase(actionData)
+      };
+      break;
     default:
       return data;
   }
@@ -21,7 +31,7 @@ const getEmailTemplate = (to, name, token, template) => {
   return data;
 };
 
-const sendEmail = (to, name, token, type) => {
+const sendEmail = (to, name, token, type, actionData = null) => {
   const smtpTransport = mailer.createTransport({
     host: 'smtp.gmail.com',
     port: 587,
@@ -32,7 +42,7 @@ const sendEmail = (to, name, token, type) => {
     }
   });
 
-  const mail = getEmailTemplate(to, name, token, type);
+  const mail = getEmailTemplate(to, name, token, type, actionData);
 
   smtpTransport.sendMail(mail, function(error, response) {
     if (error) console.log(error);

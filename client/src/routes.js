@@ -16,6 +16,7 @@ import ManageCategories from './components/user/admin/manage_categories';
 import ManageSite from './components/user/admin/manage_site';
 import UserCart from './components/user/cart';
 import UpdateProfile from './components/user/update_profile';
+import AddFile from './components/user/admin/add_file';
 
 import PageNotFound from './components/utils/page_not_found';
 
@@ -50,6 +51,7 @@ const Routes = () => {
           path="/admin/site_info"
           exact
         />
+        <Route component={Auth(AddFile, true)} path="/admin/add_file" exact />
 
         <Route
           component={Auth(ProductPage, null)}

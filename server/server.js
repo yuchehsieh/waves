@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const formidable = require('express-formidable');
 const cloudinary = require('cloudinary');
 const SHA1 = require('crypto-js/sha1');
+const multer = require('multer');
 
 const app = express();
 
@@ -47,6 +48,24 @@ const { sendEmail } = require('./utils/mail/index');
 //   .substring(0, 8)}`;
 
 // console.log(po);
+
+let storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Data.now()}_${file.originalname}`);
+  }
+});
+
+const upload = multer({ storage: storage }).single('file');
+
+app.post('/api/users/uploadfile', auth, admin, (req, res) => {
+  upload(req, res, err => {
+    if (err) return res.json({ success: false, err });
+    return res.json({ success: true });
+  });
+});
 
 //==============================
 //            PRODUCTS

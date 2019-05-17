@@ -21,13 +21,33 @@ class AddFile extends Component {
     };
   }
 
-  onDrop(files) {
+  async onDrop(files) {
     this.setState({ uploading: true });
     const formData = new FormData();
     const config = {
       headers: { 'content-type': 'mulitpart/form-data' }
     };
     formData.append('file', files[0]);
+
+    const response = await axios.post(
+      '/api/users/uploadfile',
+      formData,
+      config
+    );
+    if (response.data.success) {
+      this.setState(
+        {
+          formSuccess: true,
+          formError: false,
+          uploading: false
+        },
+        () => {
+          setTimeout(() => {
+            this.setState({ formSuccess: false });
+          }, 2000);
+        }
+      );
+    }
   }
 
   render() {

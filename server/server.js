@@ -229,11 +229,13 @@ app.get('/api/product/brands', (req, res) => {
 //            USER
 //==============================
 
-app.post('/api/user/reset_user', (req, res) => {
+app.post('/api/users/reset_user', (req, res) => {
   User.findOne({ email: req.body.email }, (err, user) => {
+    if (err) return res.json({ success: false, err });
     user.generateResetToken((err, user) => {
       if (err) return res.json({ success: false, err });
-      return res.json({ success: true, user });
+      sendEmail(user.email, user.name, null, 'reset_password', user);
+      return res.json({ success: true });
     });
   });
 });

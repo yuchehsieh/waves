@@ -6,7 +6,7 @@ let auth = (req, res, next) => {
   User.findByToken(token, (err, user) => {
     if (err) throw err;
     if (!user)
-      res.json({
+      return res.json({
         isAuth: false,
         error: true
       });

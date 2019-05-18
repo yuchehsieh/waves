@@ -83,6 +83,11 @@ app.get('/api/users/admin_files', auth, admin, (req, res) => {
   });
 });
 
+app.get('/api/users/download/:id', auth, admin, (req, res) => {
+  const file = path.resolve('.') + `/${req.params.id}`;
+  res.download(file);
+});
+
 //==============================
 //            PRODUCTS
 //==============================

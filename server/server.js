@@ -229,6 +229,15 @@ app.get('/api/product/brands', (req, res) => {
 //            USER
 //==============================
 
+app.post('/api/user/reset_user', (req, res) => {
+  User.findOne({ email: req.body.email }, (err, user) => {
+    user.generateResetToken((err, user) => {
+      if (err) return res.json({ success: false, err });
+      return res.json({ success: true, user });
+    });
+  });
+});
+
 app.get('/api/users/auth', auth, (req, res) => {
   res.status(200).json({
     isAdmin: req.user.role === 0 ? false : true,

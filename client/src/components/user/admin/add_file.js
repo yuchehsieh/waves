@@ -50,6 +50,22 @@ class AddFile extends Component {
     }
   }
 
+  async componentDidMount() {
+    const response = await axios.get('/api/users/admin_files');
+    this.setState({ files: response.data });
+  }
+
+  showFileList = () =>
+    this.state.files
+      ? this.state.files.map((item, i) => (
+          <li key={i}>
+            <Link to={`/api/users/download/${item}`} target="_blank">
+              {item}
+            </Link>
+          </li>
+        ))
+      : null;
+
   render() {
     return (
       <UserLayout>
@@ -85,7 +101,9 @@ class AddFile extends Component {
               </div>
             ) : null}
           </div>
-          <div>uploads</div>
+          <div>
+            <ul>{this.showFileList()}</ul>
+          </div>
         </div>
       </UserLayout>
     );

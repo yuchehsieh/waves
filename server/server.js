@@ -6,6 +6,8 @@ const formidable = require('express-formidable');
 const cloudinary = require('cloudinary');
 const SHA1 = require('crypto-js/sha1');
 const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
 
 const app = express();
 
@@ -71,6 +73,13 @@ app.post('/api/users/uploadfile', auth, admin, (req, res) => {
   upload(req, res, err => {
     if (err) return res.json({ success: false, err });
     return res.json({ success: true });
+  });
+});
+
+app.get('/api/users/admin_files', auth, admin, (req, res) => {
+  const dir = path.resolve('.') + '/uploads';
+  fs.readdir(dir, (err, items) => {
+    return res.status(200).send(items);
   });
 });
 
